@@ -1,24 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
 
+import './globalStyle.scss'
+import {router} from './router'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { v4 as uuidv4 } from 'uuid';
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <div className="app">
+        <Router>
+          <Routes>
+            {router.map(route =>{
+              var Layout = route.layout
+              if(route.layout == null){
+                Layout = 'div'
+              }
+              const Page = route.element
+              return (
+                <Route 
+                  key={ uuidv4()} 
+                  path={route.path}
+                  element = {<Layout><Page/></Layout>}
+                >
+                </Route>
+              )
+            })}
+          </Routes>
+        </Router>
+      </div>
   );
 }
 
